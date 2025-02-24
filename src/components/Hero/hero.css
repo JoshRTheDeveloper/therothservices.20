@@ -1,0 +1,129 @@
+.main-background {
+ display: flex;
+ background: linear-gradient(to top, rgb(0, 0, 0), #292929, rgb(0, 0, 0)); 
+width: 100vw;
+}
+
+.main-container {
+ display: flex;
+ width: 60vw;
+ margin: 50px auto;
+}
+
+.main-container p {
+ color: rgb(255, 255, 255);
+}
+
+
+.split {
+ display: flex;
+ align-items: center;
+width: 50%;
+justify-content: space-evenly;
+}
+
+.primary-h1 {
+ background: linear-gradient(to top, rgb(255, 255, 255), #defdff, rgba(255, 255, 255, 0.7)); 
+ background-clip: text; 
+ -webkit-text-fill-color: transparent; 
+}
+
+.primary-h2 {
+ background: linear-gradient(to top, rgb(197, 242, 255), #2DBAC1, rgba(0, 136, 255, 0.7)); 
+ background-clip: text; 
+ -webkit-text-fill-color: transparent; 
+
+}
+
+.split h1 {
+font-size: 4vw;
+margin: 0px;
+line-height: 1;
+}
+
+.hero-image {
+ width: 30vw;
+}
+
+.button-container {
+  padding: 20px;
+}
+
+.main-button {
+  color: #ffffff;
+  background-color: #2DBAC1;
+}
+
+/* MOBILE-MOBILE-MOBILE-MOBILE-MOBILE-MOBILE-MOBILE-MOBILE-MOBILE-MOBILE-MOBILE-MOBILE */ 
+
+.mobile-container {
+ display: flex;
+ flex-direction: column;
+ width: 100%;
+ margin: 50px auto;
+ align-items: center;
+ padding: 0 20px;
+ box-sizing: border-box;
+
+}
+
+.m-primary-h1 {
+ background: linear-gradient(to top, rgb(255, 255, 255), #defdff, rgba(255, 255, 255, 0.7)); 
+ background-clip: text; 
+ -webkit-text-fill-color: transparent; 
+ font-size: clamp(24px, 6vh, 36px);
+ text-align: center;
+}
+
+.m-primary-h2 {
+ background: linear-gradient(to top, rgb(197, 242, 255), #2DBAC1, rgba(0, 136, 255, 0.7)); 
+ background-clip: text; 
+ -webkit-text-fill-color: transparent; 
+font-size: clamp(20px, 5vh, 32px);
+padding-bottom: 5vh;
+text-align: center;
+}
+
+.mobile-container h1 {
+ 
+ font-size: clamp(20px, 10vw, 50px);
+
+}
+
+
+.mobile-container p {
+ color: rgb(255, 255, 255);
+}
+
+.mhero-image {
+ width: 100%;
+ max-width: 300px;
+ height: auto;
+ padding-bottom: 5vh;
+}
+
+.msplit {
+display: flex;
+align-items: center;
+width: 100%;
+justify-content: center;
+flex-direction: column;
+gap: 20px;
+}
+
+
+@media (min-width: 768px) {
+
+
+
+ .mobile-container {
+   width: 75vw;
+   max-width: 1200px;
+   
+ }
+ 
+ .mhero-image {
+   width: 50vw;
+   max-width: none;
+ }
+}

@@ -1,0 +1,233 @@
+.portfolio-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 60vw;
+    padding-top: 200px;
+}
+
+.portfolio-container h1{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 40px;
+}
+
+.portfolio-container ul{
+    list-style-type: none;
+    padding: 0;
+    background-color: rgb(67, 67, 67);
+}
+
+
+.portfolio-container p {
+padding: 10px 0px;
+}
+
+
+.project-image {
+    width: 400px !important;
+}
+
+
+.project-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.project-item:hover {
+   background-color: #ffffff;
+}
+
+.portfolio-container h2{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 40px;
+    margin: 0 0 10px 0;
+}
+
+
+
+.project-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+iframe.project-iframe {
+ width: 100%;
+ height: 1000px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    resize: none;
+}
+
+
+.modal-iframe {
+    width: 100%;
+    height: 80vh;
+    border: none;
+}
+
+.resize-buttons {
+ display: flex;
+ flex-direction: column;
+ position: absolute;
+    right: 20px;
+    gap: 20px;
+width: 150px;
+
+height: 80vh;
+align-items: center;
+   
+}
+
+.resize-buttons button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 120px;
+}
+
+.close {
+ background-color: red !important;
+}
+
+.close:hover {
+ background-color: rgb(138, 0, 0) !important;
+}
+
+.resize-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.button-icon {
+    width: 80%; 
+}
+
+.bg-black {
+    background-color: #535353;
+}
+
+.bg-white {
+    background-color: #ffffff;
+}
+
+.social-media-projects {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.image-column {
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+    box-sizing: border-box;
+}
+
+
+.social-image {
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 100%;
+    height: auto;
+}
+
+
+.image-column:hover .social-image {
+    transform: scale(2) translate(-25%, -25%); 
+    z-index: 10;
+    border-color: #000; 
+}
+
+
+
+@media screen and (max-width: 859px) { 
+    .portfolio-container {
+width: 90vw;
+    }
+}
+
+@media screen and (max-width: 486px) { 
+    .portfolio-container {
+width: 90vw;
+    }
+
+    .project-image {
+        width: 225px !important;
+}
+
+.portfolio-container h1{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.portfolio-container h2{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+}
+
+@media screen and (max-width: 395px) { 
+    .portfolio-container {
+        width: 100vw;
+            }
+  
+
+}

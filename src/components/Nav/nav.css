@@ -1,0 +1,39 @@
+nav {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100px;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  border-bottom: 2px solid black;
+  box-sizing: border-box;
+  z-index: 1000;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.632);
+ }
+ 
+ .navbar-brand {
+  height: 100px;
+  padding-left: 50px;
+  object-fit: contain;
+ }
+ 
+ 
+ main {
+  margin-top: 100px;
+ }
+ 
+ @media screen and (max-width: 768px) {
+  nav {
+    height: 80px;
+  }
+  
+  .navbar-brand {
+    height: 80px;
+    padding-left: 20px;
+  }
+  
+  main {
+    margin-top: 80px;
+  }
+ }
