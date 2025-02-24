@@ -3,8 +3,19 @@
     max-width: 800px;
     margin: 0 auto;
     width: 60vw;
-    padding-top: 200px;
+    padding-top: 300px;
 }
+
+.heading-1 {
+    display: flex;
+    justify-content: left;
+}
+
+.heading-1 h4 {
+   font-size: 30px;
+   padding: 20px;
+}
+
 
 .portfolio-container h1{
     text-align: center;
@@ -172,6 +183,20 @@ align-items: center;
     width: 100%;
 }
 
+.image-column1 {
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+    box-sizing: border-box;
+}
+
+
+.social-image1 {
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 100%;
+    height: auto;
+}
+
 .image-column {
     flex: 1 1 calc(50% - 20px);
     max-width: calc(50% - 20px);
@@ -186,6 +211,12 @@ align-items: center;
     height: auto;
 }
 
+
+.image-column1:hover .social-image1 {
+    transform: scale(2) translate(25%, 25%); 
+    z-index: 10;
+    border-color: #000; 
+}
 
 .image-column:hover .social-image {
     transform: scale(2) translate(-25%, -25%); 

@@ -49,7 +49,6 @@ import Sme from '../../assets/sme.jpg'
 import Smf from '../../assets/smf.jpg'
 import Smg from '../../assets/smg.jpg'
 import Smh from '../../assets/smh.jpg'
-import Smi from '../../assets/smi.png'
 import Smj from '../../assets/smj.png'
 import Smk from '../../assets/smk.png'
 import Sml from '../../assets/sml.png'
@@ -234,156 +233,142 @@ const Portfolio = () => {
         <div className="portfolio-container">
             <h1>Portfolio</h1>
             <p>Here are some of my Social Media projects and Logo designs:</p>
+            <div className='heading-1'>
             <h4>Social Media Posts</h4>
+            </div>
+           
             <div className="social-media-projects">
-                <div className="image-column hover">
-                    <img src={Goce} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Goce} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Goca} alt="Project 2" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Gocb} alt="Project 3" className="social-image" />
-                </div>
-                <div className="image-column hover">
-                    <img src={Gocb} alt="Project 3" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Gocb} alt="Project 3" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Thanks} alt="Project 3" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Dec} alt="Project 3" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Dec} alt="Project 3" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={One} alt="Project 3" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Sma} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Sma} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Smb} alt="Project 1" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Smc} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Smc} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
-                    <img src={Smd} alt="Project 1" className="social-image" />
+                    <img src={Smd} alt="Project " className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Sme} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Sme} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Smf} alt="Project 1" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Smg} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Smg} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Smh} alt="Project 1" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Smi} alt="Project 1" className="social-image" />
-                </div>
-                <div className="image-column hover">
-                    <img src={Smj} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Smj} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Smk} alt="Project 1" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Sml} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Sml} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Smm} alt="Project 1" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Smn} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Smn} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Smo} alt="Project 1" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Smp} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Smp} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Smq} alt="Project 1" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Smr} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Smr} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Sms} alt="Project 1" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Smt} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Smt} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Smu} alt="Project 1" className="social-image" />
                 </div>
             </div>     
-             <h4>Logos</h4>
+            <div className='heading-1'>
+            <h4>Logos</h4>
+            </div>
             <div className="social-media-projects">
-                <div className="image-column hover">
+                <div className="image-column1 hover">
                     <p>Before</p>
-                    <img src={Abca} alt="Project 1" className="social-image" />
+                    <img src={Abca} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                 <p>My redesign</p>
                     <img src={Abcd} alt="Project 2" className="social-image" />
                 </div>
-                <div className="image-column">
+                <div className="image-column1">
                 <p>Seasonal</p>
-                    <img src={Abcb} alt="Project 3" className="social-image" />
+                    <img src={Abcb} alt="Project 3" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={Stan} alt="Project 3" className="social-image bg-white" />
                 </div>
-                <div className="image-column hover ">
-                    <img src={Game} alt="Project 3" className="social-image bg-black" />
+                <div className="image-column1 hover ">
+                    <img src={Game} alt="Project 3" className="social-image1 bg-black" />
                 </div>
                 <div className="image-column hover">
                     <img src={Goc} alt="Project 1" className="social-image" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Learn} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Learn} alt="Project 1" className="social-image1 bg-white" />
                 </div>
                 <div className="image-column hover">
-                    <img src={Chief} alt="Project 1" className="social-image" />
+                    <img src={Chief} alt="Project 1" className="social-image bg-white" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Inv} alt="Project 1" className="social-image" />
+                <div className="image-column1 hover">
+                    <img src={Inv} alt="Project 1" className="social-image1 bg-white" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Inv} alt="Project 1" className="social-image" />
-                </div>  
             </div>
+            <div className='heading-1'>
             <h4>Booklets/PDFs</h4>
+            </div>
             <div className="social-media-projects">
-                <div className="image-column hover">
+                <div className="image-column1 hover">
              
-                    <img src={Soap} alt="Project 1" className="social-image" />
+                    <img src={Soap} alt="Project 1" className="social-image1" />
                 </div>
                 <div className="image-column hover">
                     <img src={FourD} alt="Project 2" className="social-image" />
                 </div>
-                <div className="image-column">
-                    <img src={Abcb} alt="Project 3" className="social-image" />
-                </div>
-                <div className="image-column hover">
-                    <img src={Stan} alt="Project 3" className="social-image" />
-                </div>
-                <div className="image-column hover ">
-                    <img src={Game} alt="Project 3" className="social-image bg-black" />
-                </div>
-                <div className="image-column hover">
-                    <img src={Goc} alt="Project 1" className="social-image" />
-                </div>
-                <div className="image-column hover">
-                    <img src={Learn} alt="Project 1" className="social-image" />
-                </div>
+         
             </div>
        
-
+            <div className='heading-1'>
+            <h4>Web Projects</h4>
+            </div>
         <p>Here are some of my Web projects:</p>
             <p>
                 In web design, the ultimate goal is to create a product that satisfies the client's vision while ensuring usability, functionality, and aesthetic appeal. There are times when a client's preferences or ideas may not align with best practices or my design instincts.
