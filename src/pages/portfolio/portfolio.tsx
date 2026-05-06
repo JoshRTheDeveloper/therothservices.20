@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
 import './portfolio.css'; 
-import Iphone from '../../assets/iphone.svg'
-import Ipad from '../../assets/ipad.svg'
-import Mac from '../../assets/mac.svg'
 import Bullies from '../../assets/bull.png'
 import Valwood from '../../assets/valwood.png'
 import Purpose from '../../assets/pur.png'
@@ -27,15 +24,12 @@ import Cal from '../../assets/cal.png'
 import Ida from '../../assets/ida.png'
 import Goca from '../../assets/smw.png'
 import Gocb from '../../assets/smx.png'
-import Stan from '../../assets/b.svg'
 import Game from '../../assets/la.png'
 import Abca from '../../assets/ba.jpg'
 import Abcd from '../../assets/bb.png'
 import Abcb from '../../assets/bc.jpg'
-import Learn from '../../assets/lb.svg'
 import Soap from '../../assets/ba.png'
 import FourD from '../../assets/lc.png'
-import Inv from '../../assets/invoice.svg'
 import Chief from '../../assets/chief.png'
 import Goce from '../../assets/aoce.png'
 import Thanks from '../../assets/thanks.png'
@@ -333,23 +327,14 @@ const Portfolio = () => {
                 <p>Seasonal</p>
                     <img src={Abcb} alt="Project 3" className="social-image1" />
                 </div>
-                <div className="image-column hover">
-                    <img src={Stan} alt="Project 3" className="social-image bg-white" />
-                </div>
                 <div className="image-column1 hover ">
                     <img src={Game} alt="Project 3" className="social-image1 bg-black" />
                 </div>
                 <div className="image-column hover">
                     <img src={Goc} alt="Project 1" className="social-image" />
                 </div>
-                <div className="image-column1 hover">
-                    <img src={Learn} alt="Project 1" className="social-image1 bg-white" />
-                </div>
                 <div className="image-column hover">
                     <img src={Chief} alt="Project 1" className="social-image bg-white" />
-                </div>
-                <div className="image-column1 hover">
-                    <img src={Inv} alt="Project 1" className="social-image1 bg-white" />
                 </div>
             </div>
             <div className='heading-1'>
@@ -390,15 +375,12 @@ const Portfolio = () => {
                     <div className="resize-buttons">
                         <button className='close' onClick={closeModal}>Exit</button>
                         <button onClick={(e) => { e.stopPropagation(); resizeModal('390px', '844px'); }}>
-                            <img src={Iphone} alt="Phone Icon" className="button-icon" />
                             Phone
                         </button>
                         <button onClick={(e) => { e.stopPropagation(); resizeModal('834px', '1194px'); }}>
-                            <img src={Ipad} alt="Tablet Icon" className="button-icon" />
                             Tablet
                         </button>
                         <button onClick={(e) => { e.stopPropagation(); resizeModal('1280px', '720px'); }}>
-                            <img src={Mac} alt="Desktop Icon" className="button-icon" />
                             Desktop
                         </button>
                     </div>
