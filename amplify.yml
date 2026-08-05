@@ -1,14 +1,7 @@
 version: 1
-backend:
-  phases:
-    build:
-      commands:
-        - nvm install 20
-        - nvm use 20
-        # npm ci fails on this repo's lockfile (nested AWS SDK deps out of sync).
-        # npm install is the reliable path for Amplify Hosting Gen 2 builds.
-        - npm install --cache .npm --prefer-offline
-        - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+# Marketing site does not use Cognito/AppSync on the frontend.
+# Skip pipeline-deploy for now — backend CF updates were failing
+# (AmplifyBranchLinker + data nested stack). Re-enable when picks auth ships.
 frontend:
   phases:
     preBuild:
