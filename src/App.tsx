@@ -1,30 +1,20 @@
-// src/App.tsx
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Nav from './components/Nav/nav';
-import Hero from './components/Hero/hero';
-import Pricing from './components/pricing/services';
-import Form from './components/Form/form';
-import Subpage from './pages/portfolio/portfolio';
-import Mail from './components/mail/mail';
-import './App.css'; 
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
 
-function App() {
-    return (
-        <Router>
-            <Nav />
-            <Routes>
-                <Route path="/" element={
-                    <main>
-                        <Hero />
-                        <Pricing />
-                        <Form />
-                    </main>
-                } />
-                <Route path="/portfolio" element={<Subpage />} />
-                <Route path="/mail" element={<Mail />} />
-            </Routes>
-        </Router>
-    );
+export default function App() {
+  return (
+    <BrowserRouter>
+      <div className="site-shell">
+        <Header />
+        <main className="site-main">
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
+  );
 }
-
-export default App;
