@@ -15,14 +15,42 @@ type Props = {
 
 export default function StandingsPage({ userLabel, onSignOut }: Props) {
   const [season, setSeason] = useState(new Date().getFullYear());
-  const [seasonType, setSeasonType] = useState<SeasonType>(2);
+  const [seasonType, setSeasonType] = useState<SeasonType>(1);
   const [weekLabel, setWeekLabel] = useState("This week");
   const [rows, setRows] = useState<StandingsRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [bootstrapped, setBootstrapped] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
+
+    async function boot() {
+      try {
+        const board = await fetchCurrentScoreboard();
+        if (cancelled) return;
+        setSeason(board.season);
+        setSeasonType(board.seasonType);
+        setWeekLabel(board.weekLabel);
+        setReady(true);
+      } catch (err) {
+        if (!cancelled) {
+          setError(
+            err instanceof Error ? err.message : "Could not load standings"
+          );
+          setLoading(false);
+        }
+      }
+    }
+
+    void boot();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
     let cancelled = false;
 
     async function load() {
@@ -30,21 +58,8 @@ export default function StandingsPage({ userLabel, onSignOut }: Props) {
       setError(null);
 
       try {
-        let nextSeason = season;
-        let nextType = seasonType;
-        if (!bootstrapped) {
-          const board = await fetchCurrentScoreboard();
-          if (cancelled) return;
-          nextSeason = board.season;
-          nextType = board.seasonType;
-          setSeason(board.season);
-          setSeasonType(board.seasonType);
-          setWeekLabel(board.weekLabel);
-          setBootstrapped(true);
-        }
-
-        const picks = await listSeasonPicks(nextSeason, nextType);
-        const standings = await buildStandings(picks, nextSeason, nextType);
+        const picks = await listSeasonPicks(season, seasonType);
+        const standings = await buildStandings(picks, season, seasonType);
         if (!cancelled) setRows(standings);
       } catch (err) {
         if (!cancelled) {
@@ -61,7 +76,7 @@ export default function StandingsPage({ userLabel, onSignOut }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [season, seasonType, bootstrapped]);
+  }, [ready, season, seasonType]);
 
   return (
     <div className="board">

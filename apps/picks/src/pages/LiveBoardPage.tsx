@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  fetchCurrentScoreboard,
   fetchScoreboard,
   pickLiveStatus,
   seasonTypeLabel,
   SEASON_TYPES,
-  weekLabelFor,
   weeksForSeasonType,
   type Game,
   type PickLiveStatus,
@@ -13,6 +11,7 @@ import {
 } from "../lib/espn";
 import { listWeekCloudPicks, type CloudPick } from "../lib/picksApi";
 import { formatKickoff } from "../lib/timezone";
+import { useNflSlate } from "../lib/useNflSlate";
 
 type Props = {
   userLabel: string;
@@ -23,75 +22,51 @@ type Props = {
 const LIVE_POLL_MS = 45_000;
 
 export default function LiveBoardPage({ userLabel, timeZone, onSignOut }: Props) {
-  const [week, setWeek] = useState(1);
-  const [season, setSeason] = useState(new Date().getFullYear());
-  const [seasonType, setSeasonType] = useState<SeasonType>(2);
-  const [weekLabel, setWeekLabel] = useState("Week 1");
-  const [games, setGames] = useState<Game[]>([]);
+  const {
+    week,
+    season,
+    seasonType,
+    weekLabel,
+    games,
+    loading,
+    error,
+    ready,
+    selectWeek,
+    selectSeasonType,
+    setGames,
+  } = useNflSlate();
   const [picks, setPicks] = useState<CloudPick[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [bootstrapped, setBootstrapped] = useState(false);
 
   useEffect(() => {
+    if (!ready) return;
     let cancelled = false;
 
-    async function load(requestedWeek?: number, quiet = false) {
-      if (!quiet) {
-        setLoading(true);
-        setError(null);
-      }
-
+    async function loadPicks() {
       try {
-        const board = bootstrapped
-          ? await fetchScoreboard({
-              week: requestedWeek,
-              seasonType,
-              season,
-            })
-          : await fetchCurrentScoreboard();
-        const familyPicks = await listWeekCloudPicks(
-          board.season,
-          requestedWeek ?? board.week,
-          board.seasonType
-        );
-        if (cancelled) return;
-        setGames(board.games);
-        setSeason(board.season);
-        setSeasonType(board.seasonType);
-        setWeekLabel(board.weekLabel);
-        setPicks(familyPicks);
-        if (!bootstrapped) {
-          setWeek(board.week);
-          setBootstrapped(true);
-        }
-      } catch (err) {
-        if (!cancelled && !quiet) {
-          setError(err instanceof Error ? err.message : "Could not load live board");
-        }
-      } finally {
-        if (!cancelled && !quiet) setLoading(false);
+        const familyPicks = await listWeekCloudPicks(season, week, seasonType);
+        if (!cancelled) setPicks(familyPicks);
+      } catch {
+        if (!cancelled) setPicks([]);
       }
     }
 
-    void load(bootstrapped ? week : undefined);
+    void loadPicks();
     return () => {
       cancelled = true;
     };
-  }, [week, season, seasonType, bootstrapped]);
+  }, [ready, season, week, seasonType]);
 
   const hasLiveGames = games.some((game) => game.status === "in_progress");
 
   useEffect(() => {
-    if (!bootstrapped || !hasLiveGames) return;
+    if (!ready || !hasLiveGames) return;
     const timer = window.setInterval(() => {
       void fetchScoreboard({ week, seasonType, season }).then((board) => {
         setGames(board.games);
-        setWeekLabel(board.weekLabel);
       });
     }, LIVE_POLL_MS);
     return () => window.clearInterval(timer);
-  }, [bootstrapped, hasLiveGames, week, season, seasonType]);
+  }, [ready, hasLiveGames, week, season, seasonType, setGames]);
 
   const rows = useMemo(
     () =>
@@ -101,13 +76,6 @@ export default function LiveBoardPage({ userLabel, timeZone, onSignOut }: Props)
       })),
     [games, picks]
   );
-
-  function handleSeasonTypeChange(nextType: SeasonType) {
-    setSeasonType(nextType);
-    setWeek(1);
-    setWeekLabel(weekLabelFor(nextType, 1));
-    setBootstrapped(false);
-  }
 
   return (
     <div className="board">
@@ -132,7 +100,7 @@ export default function LiveBoardPage({ userLabel, timeZone, onSignOut }: Props)
           <select
             value={seasonType}
             onChange={(event) =>
-              handleSeasonTypeChange(Number(event.target.value) as SeasonType)
+              selectSeasonType(Number(event.target.value) as SeasonType)
             }
           >
             {SEASON_TYPES.map((entry) => (
@@ -147,10 +115,7 @@ export default function LiveBoardPage({ userLabel, timeZone, onSignOut }: Props)
           <span>Jump slate</span>
           <select
             value={week}
-            onChange={(event) => {
-              setWeek(Number(event.target.value));
-              setWeekLabel(weekLabelFor(seasonType, Number(event.target.value)));
-            }}
+            onChange={(event) => selectWeek(Number(event.target.value))}
           >
             {weeksForSeasonType(seasonType).map((entry) => (
               <option key={entry.week} value={entry.week}>

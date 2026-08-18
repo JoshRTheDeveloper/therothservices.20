@@ -72,9 +72,9 @@ const ESPN_BASE =
 /** Preseason week labels (ESPN seasontype=1). */
 export const PRESEASON_WEEKS = [
   { week: 1, label: "Hall of Fame" },
-  { week: 2, label: "Preseason Week 1" },
-  { week: 3, label: "Preseason Week 2" },
-  { week: 4, label: "Preseason Week 3" },
+  { week: 2, label: "Preseason Week 2" },
+  { week: 3, label: "Preseason Week 3" },
+  { week: 4, label: "Preseason Week 4" },
 ] as const;
 
 export const REGULAR_SEASON_WEEKS = Array.from({ length: 18 }, (_, index) => ({
@@ -103,7 +103,7 @@ export function seasonTypeLabel(seasonType: SeasonType): string {
 
 export function weekLabelFor(seasonType: SeasonType, week: number): string {
   if (seasonType === 1) {
-    return PRESEASON_WEEKS.find((entry) => entry.week === week)?.label ?? `Preseason ${week}`;
+    return PRESEASON_WEEKS.find((entry) => entry.week === week)?.label ?? `Preseason Week ${week}`;
   }
   if (seasonType === 3) return `Playoffs ${week}`;
   return `Week ${week}`;

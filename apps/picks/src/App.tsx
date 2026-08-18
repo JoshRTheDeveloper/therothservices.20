@@ -1,14 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import TicketCard from "./components/TicketCard";
 import {
-  fetchCurrentScoreboard,
-  fetchScoreboard,
   isGameLocked,
   seasonTypeLabel,
   SEASON_TYPES,
-  weekLabelFor,
   weeksForSeasonType,
-  type Game,
   type SeasonType,
 } from "./lib/espn";
 import {
@@ -17,6 +13,7 @@ import {
   upsertPick,
   type PickMap,
 } from "./lib/picksApi";
+import { useNflSlate } from "./lib/useNflSlate";
 
 type Props = {
   userLabel: string;
@@ -25,64 +22,30 @@ type Props = {
 };
 
 export default function App({ userLabel, timeZone, onSignOut }: Props) {
-  const [week, setWeek] = useState(1);
-  const [season, setSeason] = useState(new Date().getFullYear());
-  const [seasonType, setSeasonType] = useState<SeasonType>(2);
-  const [weekLabel, setWeekLabel] = useState("Week 1");
-  const [games, setGames] = useState<Game[]>([]);
+  const {
+    week,
+    season,
+    seasonType,
+    weekLabel,
+    games,
+    loading,
+    error,
+    ready,
+    selectWeek,
+    selectSeasonType,
+  } = useNflSlate();
   /** Working slate — not saved until Lock in */
   const [draft, setDraft] = useState<PickMap>({});
   /** Last locked-in picks from storage */
   const [submitted, setSubmitted] = useState<PickMap>({});
   const [pickIds, setPickIds] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(true);
   const [picksLoading, setPicksLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [picksError, setPicksError] = useState<string | null>(null);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
-  const [bootstrapped, setBootstrapped] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function load(requestedWeek?: number) {
-      setLoading(true);
-      setError(null);
-      try {
-        const board = bootstrapped
-          ? await fetchScoreboard({
-              week: requestedWeek,
-              seasonType,
-              season,
-            })
-          : await fetchCurrentScoreboard();
-        if (cancelled) return;
-        setGames(board.games);
-        setSeason(board.season);
-        setSeasonType(board.seasonType);
-        setWeekLabel(board.weekLabel);
-        if (!bootstrapped) {
-          setWeek(board.week);
-          setBootstrapped(true);
-        }
-      } catch (err) {
-        if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Could not load ESPN scoreboard");
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-
-    void load(bootstrapped ? week : undefined);
-    return () => {
-      cancelled = true;
-    };
-  }, [week, seasonType, bootstrapped]);
-
-  useEffect(() => {
-    if (!bootstrapped) return;
+    if (!ready) return;
     let cancelled = false;
 
     async function syncPicks() {
@@ -110,7 +73,7 @@ export default function App({ userLabel, timeZone, onSignOut }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [season, week, seasonType, bootstrapped]);
+  }, [season, week, seasonType, ready]);
 
   const available = useMemo(
     () => games.filter((game) => !isGameLocked(game.gameDate)),
@@ -191,18 +154,6 @@ export default function App({ userLabel, timeZone, onSignOut }: Props) {
     }
   }
 
-  function handleSeasonTypeChange(nextType: SeasonType) {
-    setSeasonType(nextType);
-    setWeek(1);
-    setWeekLabel(weekLabelFor(nextType, 1));
-    setBootstrapped(false);
-  }
-
-  function handleWeekChange(nextWeek: number) {
-    setWeek(nextWeek);
-    setWeekLabel(weekLabelFor(seasonType, nextWeek));
-  }
-
   return (
     <div className="board">
       <div className="board__glow" aria-hidden="true" />
@@ -226,7 +177,7 @@ export default function App({ userLabel, timeZone, onSignOut }: Props) {
           <select
             value={seasonType}
             onChange={(event) =>
-              handleSeasonTypeChange(Number(event.target.value) as SeasonType)
+              selectSeasonType(Number(event.target.value) as SeasonType)
             }
           >
             {SEASON_TYPES.map((entry) => (
@@ -241,7 +192,7 @@ export default function App({ userLabel, timeZone, onSignOut }: Props) {
           <span>Jump slate</span>
           <select
             value={week}
-            onChange={(event) => handleWeekChange(Number(event.target.value))}
+            onChange={(event) => selectWeek(Number(event.target.value))}
           >
             {weeksForSeasonType(seasonType).map((entry) => (
               <option key={entry.week} value={entry.week}>
