@@ -7,13 +7,13 @@ applications:
         build:
           commands:
             - cd ../..
-            - npm ci --cache .npm --prefer-offline
+            - npm install --cache .npm --prefer-offline
             - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
     frontend:
       phases:
         preBuild:
           commands:
-            - npm ci --cache .npm --prefer-offline
+            - npm install --cache .npm --prefer-offline
         build:
           commands:
             - npm run build
@@ -33,7 +33,7 @@ applications:
       phases:
         preBuild:
           commands:
-            - npm ci --cache .npm --prefer-offline
+            - npm install --cache .npm --prefer-offline
         build:
           commands:
             - npm run build
