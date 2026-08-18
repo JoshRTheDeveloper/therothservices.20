@@ -143,9 +143,41 @@ export async function fetchScoreboard(options?: {
   };
 }
 
-/** ESPN's default scoreboard = the NFL week happening now. */
-export function fetchCurrentScoreboard(): Promise<ScoreboardMeta> {
-  return fetchScoreboard();
+function slateIsFinished(games: Game[]): boolean {
+  return games.length > 0 && games.every((game) => game.status === "final");
+}
+
+function nextNflSlate(
+  season: number,
+  seasonType: SeasonType,
+  week: number
+): { season: number; seasonType: SeasonType; week: number } | null {
+  const weeks = weeksForSeasonType(seasonType);
+  const lastWeek = weeks[weeks.length - 1]?.week ?? week;
+  if (week < lastWeek) {
+    return { season, seasonType, week: week + 1 };
+  }
+  if (seasonType === 1) return { season, seasonType: 2, week: 1 };
+  if (seasonType === 2) return { season, seasonType: 3, week: 1 };
+  return null;
+}
+
+/**
+ * ESPN often keeps serving a finished week until the next slate starts.
+ * After every game is final, jump to the next week (e.g. preseason 2 → 3).
+ */
+export async function fetchCurrentScoreboard(): Promise<ScoreboardMeta> {
+  let board = await fetchScoreboard();
+
+  for (let hop = 0; hop < 6 && slateIsFinished(board.games); hop += 1) {
+    const next = nextNflSlate(board.season, board.seasonType, board.week);
+    if (!next) break;
+    const upcoming = await fetchScoreboard(next);
+    if (upcoming.games.length === 0) break;
+    board = upcoming;
+  }
+
+  return board;
 }
 
 function mapStatus(event: EspnEvent): Game["status"] {
