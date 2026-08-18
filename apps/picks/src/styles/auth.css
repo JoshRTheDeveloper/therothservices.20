@@ -1,0 +1,188 @@
+.sign-in {
+  position: relative;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem 1rem 2.5rem;
+  overflow: hidden;
+}
+
+.sign-in__glow {
+  pointer-events: none;
+  position: absolute;
+  inset: auto -15% -25% auto;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(200, 245, 66, 0.14), transparent 65%);
+  filter: blur(10px);
+}
+
+.sign-in__panel {
+  position: relative;
+  width: min(100%, 26rem);
+  z-index: 1;
+  border: 1px dashed rgba(244, 239, 228, 0.28);
+  background: rgba(13, 31, 23, 0.88);
+  padding: 1.5rem 1.25rem 1.25rem;
+}
+
+.auth-mast {
+  text-align: center;
+  padding: 0.25rem 0 0.75rem;
+}
+
+.auth-mast__league,
+.auth-mast__sub {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+
+.auth-mast h1 {
+  margin: 0.2rem 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.8rem, 12vw, 4rem);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+
+.auth-mast__sub {
+  color: var(--muted);
+}
+
+.auth-foot {
+  margin: 1rem 0 0;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.temp-form {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.temp-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.temp-form input {
+  appearance: none;
+  border: 1px solid rgba(200, 245, 66, 0.35);
+  background: var(--turf-2);
+  color: var(--chalk);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 0.7rem 0.75rem;
+}
+
+.temp-form input:focus {
+  outline: 1px solid var(--lime);
+}
+
+.temp-form button {
+  appearance: none;
+  border: 0;
+  background: var(--lime);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+}
+
+.temp-form button:hover {
+  background: #d6ff5a;
+}
+
+.temp-form__error {
+  margin: 0;
+  color: #ffd9a8;
+  font-size: 0.9rem;
+}
+
+.mast__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sign-out {
+  appearance: none;
+  border: 1px solid rgba(200, 245, 66, 0.35);
+  background: transparent;
+  color: var(--lime);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.65rem;
+  cursor: pointer;
+}
+
+.sign-out:hover {
+  background: rgba(200, 245, 66, 0.12);
+}
+
+.banner {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid rgba(200, 245, 66, 0.28);
+  color: var(--chalk);
+  font-size: 0.9rem;
+}
+
+.banner--warn {
+  border-color: rgba(255, 180, 90, 0.55);
+  color: #ffd9a8;
+}
+
+[data-amplify-authenticator] {
+  --amplify-colors-background-primary: var(--turf);
+  --amplify-colors-background-secondary: var(--turf-2);
+  --amplify-colors-font-primary: var(--chalk);
+  --amplify-colors-font-secondary: var(--muted);
+  --amplify-colors-brand-primary-80: var(--lime);
+  --amplify-colors-brand-primary-90: #d6ff5a;
+  --amplify-colors-brand-primary-100: var(--lime);
+  --amplify-radii-small: 0;
+  --amplify-radii-medium: 0;
+  --amplify-radii-large: 0;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem 1rem;
+}
+
+[data-amplify-authenticator] [data-amplify-router] {
+  border: 1px dashed rgba(244, 239, 228, 0.28);
+  background: rgba(13, 31, 23, 0.88);
+  box-shadow: none;
+}
+
+[data-amplify-authenticator] .amplify-button--primary {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+[data-amplify-authenticator] .amplify-input,
+[data-amplify-authenticator] .amplify-field-group__control {
+  background: var(--turf-2);
+  color: var(--chalk);
+  border-color: rgba(200, 245, 66, 0.35);
+}

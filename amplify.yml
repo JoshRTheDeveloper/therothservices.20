@@ -1,22 +1,47 @@
 version: 1
-# Marketing site does not use Cognito/AppSync on the frontend.
-# Skip pipeline-deploy for now — backend CF updates were failing
-# (AmplifyBranchLinker + data nested stack). Re-enable when picks auth ships.
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - nvm install 20
-        - nvm use 20
-        - npm install --cache .npm --prefer-offline
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: dist
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - .npm/**/*
-      - node_modules/**/*
+applications:
+  # NFL Picks PWA — full stack (Cognito + AppSync + hosted frontend)
+  - appRoot: apps/picks
+    backend:
+      phases:
+        build:
+          commands:
+            - cd ../..
+            - npm ci --cache .npm --prefer-offline
+            - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm ci --cache .npm --prefer-offline
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: dist
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - node_modules/**/*
+          - ../../.npm/**/*
+          - ../../node_modules/**/*
+
+  # Marketing site — frontend only (no Cognito/AppSync on this app)
+  - appRoot: .
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm ci --cache .npm --prefer-offline
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: dist
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - .npm/**/*
+          - node_modules/**/*

@@ -1,11 +1,17 @@
-import { defineAuth } from '@aws-amplify/backend';
+import { defineAuth } from "@aws-amplify/backend";
 
 /**
- * Define and configure your auth resource
- * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ * Email/password Cognito for the family picks PWA.
+ * Self sign-up is disabled in backend.ts — invite users via Cognito console / AdminCreateUser.
  */
 export const auth = defineAuth({
   loginWith: {
     email: true,
+  },
+  userAttributes: {
+    preferredUsername: {
+      mutable: true,
+      required: false,
+    },
   },
 });
