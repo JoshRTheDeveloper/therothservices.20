@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Authenticator, ThemeProvider } from "@aws-amplify/ui-react";
 import App from "../App";
-import { getPickerName } from "../lib/auth";
+import { getPickerProfile } from "../lib/auth";
 import { hasPickModel } from "../lib/amplify";
 import LiveBoardPage from "./LiveBoardPage";
+import ProfilePage from "./ProfilePage";
 import StandingsPage from "./StandingsPage";
 
 type View = "picks" | "live" | "standings";
@@ -32,15 +33,46 @@ function AuthenticatedShell({
   signOut?: () => void;
 }) {
   const [view, setView] = useState<View>("picks");
-  const [userLabel, setUserLabel] = useState("Family");
+  const [userLabel, setUserLabel] = useState<string | null>(null);
+  const [timeZone, setTimeZone] = useState("America/Chicago");
+  const [profileReady, setProfileReady] = useState(false);
+  const [editingProfile, setEditingProfile] = useState(false);
 
   useEffect(() => {
-    void getPickerName().then(setUserLabel);
+    void getPickerProfile().then((profile) => {
+      setUserLabel(profile.name);
+      setTimeZone(profile.timeZone);
+      setProfileReady(true);
+    });
   }, []);
 
   const handleSignOut = () => {
     signOut?.();
   };
+
+  if (!profileReady) {
+    return (
+      <div className="sign-in">
+        <p className="auth-foot">Loading profile…</p>
+      </div>
+    );
+  }
+
+  if (!userLabel || editingProfile) {
+    return (
+      <ProfilePage
+        initialName={userLabel ?? ""}
+        initialTimeZone={timeZone}
+        allowSkip={Boolean(userLabel) && editingProfile}
+        onSaved={(profile) => {
+          setUserLabel(profile.name);
+          setTimeZone(profile.timeZone);
+          setEditingProfile(false);
+        }}
+        onCancel={() => setEditingProfile(false)}
+      />
+    );
+  }
 
   return (
     <>
@@ -66,12 +98,19 @@ function AuthenticatedShell({
         >
           Standings
         </button>
+        <button
+          type="button"
+          className="app-nav__profile"
+          onClick={() => setEditingProfile(true)}
+        >
+          {userLabel}
+        </button>
       </nav>
 
       {view === "picks" ? (
-        <App userLabel={userLabel} onSignOut={handleSignOut} />
+        <App userLabel={userLabel} timeZone={timeZone} onSignOut={handleSignOut} />
       ) : view === "live" ? (
-        <LiveBoardPage userLabel={userLabel} onSignOut={handleSignOut} />
+        <LiveBoardPage userLabel={userLabel} timeZone={timeZone} onSignOut={handleSignOut} />
       ) : (
         <StandingsPage userLabel={userLabel} onSignOut={handleSignOut} />
       )}

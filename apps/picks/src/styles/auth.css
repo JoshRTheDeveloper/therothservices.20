@@ -80,7 +80,8 @@
   color: var(--muted);
 }
 
-.temp-form input {
+.temp-form input,
+.temp-form select {
   appearance: none;
   border: 1px solid rgba(200, 245, 66, 0.35);
   background: var(--turf-2);
@@ -90,7 +91,8 @@
   padding: 0.7rem 0.75rem;
 }
 
-.temp-form input:focus {
+.temp-form input:focus,
+.temp-form select:focus {
   outline: 1px solid var(--lime);
 }
 

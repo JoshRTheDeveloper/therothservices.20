@@ -1,4 +1,5 @@
 import type { Game } from "../lib/espn";
+import { formatKickoff } from "../lib/timezone";
 import { shortTeamName, teamTone } from "../lib/teamTone";
 import "./TicketCard.css";
 
@@ -8,6 +9,7 @@ type Props = {
   locked: boolean;
   /** Already submitted / locked-in for this game */
   lockedIn?: boolean;
+  timeZone: string;
   onPick?: (gameId: string, abbr: string) => void;
 };
 
@@ -16,15 +18,10 @@ export default function TicketCard({
   selectedAbbr,
   locked,
   lockedIn = false,
+  timeZone,
   onPick,
 }: Props) {
-  const kickoff = new Date(game.gameDate).toLocaleString(undefined, {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  });
+  const kickoff = formatKickoff(game.gameDate, timeZone);
 
   const stubLabel = game.status === "final"
     ? "FINAL"

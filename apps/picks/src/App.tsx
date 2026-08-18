@@ -19,10 +19,11 @@ import {
 
 type Props = {
   userLabel: string;
+  timeZone: string;
   onSignOut: () => void;
 };
 
-export default function App({ userLabel, onSignOut }: Props) {
+export default function App({ userLabel, timeZone, onSignOut }: Props) {
   const [week, setWeek] = useState(1);
   const [season, setSeason] = useState(new Date().getFullYear());
   const [seasonType, setSeasonType] = useState<SeasonType>(2);
@@ -280,6 +281,7 @@ export default function App({ userLabel, onSignOut }: Props) {
                         selectedAbbr={draft[key] ?? submitted[key]}
                         locked={isSubmitted}
                         lockedIn={isSubmitted}
+                        timeZone={timeZone}
                         onPick={isSubmitted ? undefined : handlePick}
                       />
                     </div>
@@ -326,6 +328,7 @@ export default function App({ userLabel, onSignOut }: Props) {
                       selectedAbbr={submitted[key] ?? draft[key]}
                       locked
                       lockedIn={Boolean(submitted[key])}
+                      timeZone={timeZone}
                     />
                   );
                 })}

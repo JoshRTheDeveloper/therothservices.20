@@ -44,7 +44,8 @@ type PicksClient = {
       }) => Promise<MutationResult>;
       update: (input: {
         id: string;
-        pickedTeamAbbr: string;
+        pickedTeamAbbr?: string;
+        pickerName?: string;
       }) => Promise<MutationResult>;
     };
   };
@@ -251,4 +252,24 @@ export async function upsertPick(options: {
   }
 
   return data.id;
+}
+
+export async function renameMyPicks(pickerName: string) {
+  const userId = await getCurrentUserId();
+  const records = await listAll({});
+  const client = await cloudClient();
+
+  for (const record of records) {
+    if (record.owner !== userId || !record.id) continue;
+    if (record.pickerName === pickerName) continue;
+    const { errors } = await client.models.Pick.update({
+      id: record.id,
+      pickerName,
+    });
+    if (errors?.length) {
+      throw new Error(
+        errors.map((error) => error.message).join("; ") || "Failed to rename picks"
+      );
+    }
+  }
 }

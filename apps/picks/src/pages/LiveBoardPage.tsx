@@ -11,15 +11,17 @@ import {
   type SeasonType,
 } from "../lib/espn";
 import { listWeekCloudPicks, type CloudPick } from "../lib/picksApi";
+import { formatKickoff } from "../lib/timezone";
 
 type Props = {
   userLabel: string;
+  timeZone: string;
   onSignOut: () => void;
 };
 
 const LIVE_POLL_MS = 45_000;
 
-export default function LiveBoardPage({ userLabel, onSignOut }: Props) {
+export default function LiveBoardPage({ userLabel, timeZone, onSignOut }: Props) {
   const [week, setWeek] = useState(1);
   const [season, setSeason] = useState(new Date().getFullYear());
   const [seasonType, setSeasonType] = useState<SeasonType>(2);
@@ -173,7 +175,11 @@ export default function LiveBoardPage({ userLabel, onSignOut }: Props) {
             rows.map(({ game, visible }) => (
               <article key={game.gameId} className="live-card">
                 <header className="live-card__head">
-                  <p className="live-card__status">{game.clockLabel}</p>
+                  <p className="live-card__status">
+                    {game.status === "scheduled"
+                      ? formatKickoff(game.gameDate, timeZone)
+                      : game.clockLabel}
+                  </p>
                   <p className="live-card__score">
                     {game.awayTeam.abbreviation}{" "}
                     <strong>{scoreOrDash(game.awayTeam.score, game)}</strong>

@@ -258,6 +258,15 @@ select {
   color: var(--lime);
 }
 
+.app-nav__profile {
+  flex: 0.9 !important;
+  font-size: 0.95rem !important;
+  max-width: 7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .live-stack {
   display: grid;
   gap: 0.85rem;
