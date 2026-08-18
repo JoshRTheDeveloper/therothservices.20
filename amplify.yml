@@ -6,7 +6,7 @@ applications:
       phases:
         build:
           commands:
-            - cd "$CODEBUILD_SRC_DIR" && npm install --cache .npm --prefer-offline && npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID --outputs-out-dir apps/picks
+            - cd ../.. && npm install --cache .npm --prefer-offline && npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID --outputs-out-dir apps/picks
     frontend:
       phases:
         preBuild:
@@ -16,8 +16,8 @@ applications:
           commands:
             - npm run build
             - test -d dist
-            - rm -rf "$CODEBUILD_SRC_DIR/dist"
-            - cp -R dist "$CODEBUILD_SRC_DIR/dist"
+            - rm -rf ../../dist
+            - cp -R dist ../../dist
       artifacts:
         baseDirectory: dist
         files:
