@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import {
+  fetchCurrentScoreboard,
   fetchScoreboard,
   pickLiveStatus,
   seasonTypeLabel,
@@ -42,11 +43,13 @@ export default function LiveBoardPage({ userLabel, timeZone, onSignOut }: Props)
       }
 
       try {
-        const board = await fetchScoreboard(
-          requestedWeek
-            ? { week: requestedWeek, seasonType, season }
-            : { seasonType }
-        );
+        const board = bootstrapped
+          ? await fetchScoreboard({
+              week: requestedWeek,
+              seasonType,
+              season,
+            })
+          : await fetchCurrentScoreboard();
         const familyPicks = await listWeekCloudPicks(
           board.season,
           requestedWeek ?? board.week,

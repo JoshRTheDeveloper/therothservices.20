@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import TicketCard from "./components/TicketCard";
 import {
+  fetchCurrentScoreboard,
   fetchScoreboard,
   isGameLocked,
   seasonTypeLabel,
@@ -49,11 +50,13 @@ export default function App({ userLabel, timeZone, onSignOut }: Props) {
       setLoading(true);
       setError(null);
       try {
-        const board = await fetchScoreboard(
-          requestedWeek
-            ? { week: requestedWeek, seasonType, season: new Date().getFullYear() }
-            : { seasonType }
-        );
+        const board = bootstrapped
+          ? await fetchScoreboard({
+              week: requestedWeek,
+              seasonType,
+              season,
+            })
+          : await fetchCurrentScoreboard();
         if (cancelled) return;
         setGames(board.games);
         setSeason(board.season);

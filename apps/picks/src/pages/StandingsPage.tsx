@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  fetchCurrentScoreboard,
   seasonTypeLabel,
   SEASON_TYPES,
   type SeasonType,
@@ -15,9 +16,11 @@ type Props = {
 export default function StandingsPage({ userLabel, onSignOut }: Props) {
   const [season, setSeason] = useState(new Date().getFullYear());
   const [seasonType, setSeasonType] = useState<SeasonType>(2);
+  const [weekLabel, setWeekLabel] = useState("This week");
   const [rows, setRows] = useState<StandingsRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [bootstrapped, setBootstrapped] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -27,8 +30,21 @@ export default function StandingsPage({ userLabel, onSignOut }: Props) {
       setError(null);
 
       try {
-        const picks = await listSeasonPicks(season, seasonType);
-        const standings = await buildStandings(picks, season, seasonType);
+        let nextSeason = season;
+        let nextType = seasonType;
+        if (!bootstrapped) {
+          const board = await fetchCurrentScoreboard();
+          if (cancelled) return;
+          nextSeason = board.season;
+          nextType = board.seasonType;
+          setSeason(board.season);
+          setSeasonType(board.seasonType);
+          setWeekLabel(board.weekLabel);
+          setBootstrapped(true);
+        }
+
+        const picks = await listSeasonPicks(nextSeason, nextType);
+        const standings = await buildStandings(picks, nextSeason, nextType);
         if (!cancelled) setRows(standings);
       } catch (err) {
         if (!cancelled) {
@@ -45,7 +61,7 @@ export default function StandingsPage({ userLabel, onSignOut }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [season, seasonType]);
+  }, [season, seasonType, bootstrapped]);
 
   return (
     <div className="board">
@@ -60,7 +76,7 @@ export default function StandingsPage({ userLabel, onSignOut }: Props) {
         </div>
         <h1>Leaderboard</h1>
         <p className="mast__sub">
-          Roth House Picks · {userLabel}
+          Current slate {weekLabel} · {userLabel}
         </p>
       </header>
 

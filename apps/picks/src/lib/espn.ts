@@ -114,24 +114,22 @@ export async function fetchScoreboard(options?: {
   seasonType?: SeasonType;
   season?: number;
 }): Promise<ScoreboardMeta> {
-  // Default to preseason for now so the family can test with live Aug slate.
-  const seasonType: SeasonType = options?.seasonType ?? 1;
-  const params = new URLSearchParams({
-    seasontype: String(seasonType),
-  });
+  const params = new URLSearchParams();
 
+  if (options?.seasonType) params.set("seasontype", String(options.seasonType));
   if (options?.week) params.set("week", String(options.week));
   if (options?.season) params.set("dates", String(options.season));
   else if (options?.week) params.set("dates", String(new Date().getFullYear()));
 
-  const response = await fetch(`${ESPN_BASE}?${params.toString()}`);
+  const query = params.toString();
+  const response = await fetch(query ? `${ESPN_BASE}?${query}` : ESPN_BASE);
   if (!response.ok) {
     throw new Error(`ESPN scoreboard failed (${response.status})`);
   }
 
   const data = (await response.json()) as EspnScoreboard;
   const season = data.season?.year ?? options?.season ?? new Date().getFullYear();
-  const resolvedType = (data.season?.type ?? seasonType) as SeasonType;
+  const resolvedType = (data.season?.type ?? options?.seasonType ?? 2) as SeasonType;
   const resolvedWeek = options?.week ?? data.week?.number ?? 1;
 
   return {
@@ -143,6 +141,11 @@ export async function fetchScoreboard(options?: {
       mapEvent(event, resolvedWeek, season, resolvedType)
     ),
   };
+}
+
+/** ESPN's default scoreboard = the NFL week happening now. */
+export function fetchCurrentScoreboard(): Promise<ScoreboardMeta> {
+  return fetchScoreboard();
 }
 
 function mapStatus(event: EspnEvent): Game["status"] {
