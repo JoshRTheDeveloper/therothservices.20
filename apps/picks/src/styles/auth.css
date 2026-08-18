@@ -155,11 +155,22 @@
 [data-amplify-authenticator] {
   --amplify-colors-background-primary: var(--turf);
   --amplify-colors-background-secondary: var(--turf-2);
-  --amplify-colors-font-primary: var(--chalk);
-  --amplify-colors-font-secondary: var(--muted);
-  --amplify-colors-brand-primary-80: var(--lime);
+  --amplify-colors-font-primary: #f4efe4;
+  --amplify-colors-font-secondary: #f4efe4;
+  --amplify-colors-font-tertiary: #f4efe4;
+  --amplify-colors-font-interactive: #f4efe4;
+  --amplify-colors-font-hover: #d6ff5a;
+  --amplify-colors-font-focus: #f4efe4;
+  --amplify-colors-brand-primary-10: #143526;
+  --amplify-colors-brand-primary-20: #143526;
+  --amplify-colors-brand-primary-40: #c8f542;
+  --amplify-colors-brand-primary-60: #c8f542;
+  --amplify-colors-brand-primary-80: #f4efe4;
   --amplify-colors-brand-primary-90: #d6ff5a;
-  --amplify-colors-brand-primary-100: var(--lime);
+  --amplify-colors-brand-primary-100: #c8f542;
+  --amplify-colors-primary-80: #f4efe4;
+  --amplify-colors-primary-90: #d6ff5a;
+  --amplify-colors-primary-100: #c8f542;
   --amplify-radii-small: 0;
   --amplify-radii-medium: 0;
   --amplify-radii-large: 0;
@@ -167,6 +178,7 @@
   display: grid;
   place-items: center;
   padding: 1.5rem 1rem;
+  color: #f4efe4;
 }
 
 [data-amplify-authenticator] [data-amplify-router] {
@@ -175,14 +187,44 @@
   box-shadow: none;
 }
 
+[data-amplify-authenticator] .amplify-heading,
+[data-amplify-authenticator] .amplify-text,
+[data-amplify-authenticator] .amplify-label,
+[data-amplify-authenticator] .amplify-field__label,
+[data-amplify-authenticator] .amplify-button--link,
+[data-amplify-authenticator] .amplify-tabs__item,
+[data-amplify-authenticator] legend,
+[data-amplify-authenticator] p,
+[data-amplify-authenticator] span,
+[data-amplify-authenticator] label {
+  color: #f4efe4;
+}
+
+[data-amplify-authenticator] .amplify-button--link:hover,
+[data-amplify-authenticator] .amplify-button--link:focus {
+  color: #d6ff5a;
+}
+
 [data-amplify-authenticator] .amplify-button--primary {
   background: var(--lime);
   color: var(--ink);
 }
 
+[data-amplify-authenticator] .amplify-button--primary,
+[data-amplify-authenticator] .amplify-button--primary .amplify-text,
+[data-amplify-authenticator] .amplify-button--primary span {
+  color: var(--ink);
+}
+
 [data-amplify-authenticator] .amplify-input,
-[data-amplify-authenticator] .amplify-field-group__control {
+[data-amplify-authenticator] .amplify-field-group__control,
+[data-amplify-authenticator] input,
+[data-amplify-authenticator] .amplify-passwordfield input {
   background: var(--turf-2);
-  color: var(--chalk);
+  color: #f4efe4;
   border-color: rgba(200, 245, 66, 0.35);
+}
+
+[data-amplify-authenticator] input::placeholder {
+  color: #9bb0a3;
 }

@@ -18,6 +18,8 @@ export type Game = {
   gameDate: string;
   status: "scheduled" | "in_progress" | "final" | "postponed";
   statusText: string;
+  /** e.g. "Q2 5:42" or "Halftime" */
+  clockLabel: string;
 };
 
 export type ScoreboardMeta = {
@@ -43,7 +45,18 @@ type EspnCompetitor = {
 type EspnEvent = {
   id: string;
   date: string;
-  status: { type: { name?: string; state?: string; description?: string; completed?: boolean } };
+  status: {
+    displayClock?: string;
+    period?: number;
+    type: {
+      name?: string;
+      state?: string;
+      description?: string;
+      detail?: string;
+      shortDetail?: string;
+      completed?: boolean;
+    };
+  };
   competitions: Array<{ competitors: EspnCompetitor[] }>;
 };
 
@@ -135,10 +148,35 @@ export async function fetchScoreboard(options?: {
 function mapStatus(event: EspnEvent): Game["status"] {
   const state = event.status.type.state?.toLowerCase();
   const name = event.status.type.name?.toLowerCase() ?? "";
+  const detail = `${event.status.type.detail ?? ""} ${event.status.type.shortDetail ?? ""}`.toLowerCase();
   if (event.status.type.completed || state === "post") return "final";
-  if (state === "in" || name.includes("progress")) return "in_progress";
+  if (state === "in" || name.includes("progress") || detail.includes("quarter") || detail.includes("half")) {
+    return "in_progress";
+  }
   if (name.includes("postpon")) return "postponed";
   return "scheduled";
+}
+
+function clockLabelFor(event: EspnEvent): string {
+  const short = event.status.type.shortDetail?.trim();
+  const clock = event.status.displayClock?.trim();
+  const period = event.status.period;
+  const blob = `${short ?? ""} ${event.status.type.detail ?? ""} ${event.status.type.description ?? ""}`.toLowerCase();
+
+  if (event.status.type.completed || event.status.type.state?.toLowerCase() === "post") {
+    return "Final";
+  }
+  if (blob.includes("half")) {
+    return short && /half/i.test(short) ? short : "Halftime";
+  }
+  if (short && /q\d|ot/i.test(short)) return short;
+  if (period && clock) {
+    const quarter =
+      period > 4 ? (period === 5 ? "OT" : `OT${period - 4}`) : `Q${period}`;
+    return `${quarter} ${clock}`;
+  }
+  if (short) return short;
+  return event.status.type.description ?? event.status.type.name ?? "Scheduled";
 }
 
 function mapEvent(
@@ -160,6 +198,7 @@ function mapEvent(
     gameDate: event.date,
     status: mapStatus(event),
     statusText: event.status.type.description ?? event.status.type.name ?? "Scheduled",
+    clockLabel: clockLabelFor(event),
     homeTeam: {
       teamId: home.team.id,
       name: home.team.displayName ?? home.team.name,
@@ -192,4 +231,37 @@ export function gameWinner(game: Game): string | null {
   return homeScore > awayScore
     ? game.homeTeam.abbreviation
     : game.awayTeam.abbreviation;
+}
+
+export type PickLiveStatus =
+  | "pending"
+  | "winning"
+  | "losing"
+  | "won"
+  | "lost"
+  | "push";
+
+export function pickLiveStatus(game: Game, abbr: string): PickLiveStatus {
+  if (game.status === "scheduled" || game.status === "postponed") {
+    return "pending";
+  }
+
+  const homeScore = game.homeTeam.score;
+  const awayScore = game.awayTeam.score;
+  if (homeScore === undefined || awayScore === undefined) return "pending";
+
+  const leading =
+    homeScore === awayScore
+      ? null
+      : homeScore > awayScore
+        ? game.homeTeam.abbreviation
+        : game.awayTeam.abbreviation;
+
+  if (game.status === "final") {
+    if (!leading) return "push";
+    return leading === abbr ? "won" : "lost";
+  }
+
+  if (!leading) return "pending";
+  return leading === abbr ? "winning" : "losing";
 }

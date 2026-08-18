@@ -128,6 +128,45 @@ export async function loadWeekPicks(
   return toMap(mine);
 }
 
+export async function listWeekCloudPicks(
+  season: number,
+  week: number,
+  seasonType: SeasonType = 1
+): Promise<CloudPick[]> {
+  const records = await listAll({
+    and: [
+      { season: { eq: season } },
+      { week: { eq: week } },
+      { seasonType: { eq: seasonType } },
+    ],
+  });
+
+  return records.flatMap((record) => {
+    if (
+      !record.id ||
+      !record.owner ||
+      !record.gameId ||
+      !record.pickedTeamAbbr ||
+      !record.pickerName
+    ) {
+      return [];
+    }
+
+    return [
+      {
+        id: record.id,
+        owner: record.owner,
+        season: record.season,
+        seasonType: record.seasonType,
+        week: record.week,
+        gameId: record.gameId,
+        pickedTeamAbbr: record.pickedTeamAbbr,
+        pickerName: record.pickerName,
+      },
+    ];
+  });
+}
+
 export async function listSeasonPicks(
   season: number,
   seasonType: SeasonType

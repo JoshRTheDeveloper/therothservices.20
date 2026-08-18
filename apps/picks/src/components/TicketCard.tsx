@@ -46,7 +46,7 @@ export default function TicketCard({
       <div className="ticket__body">
         <header className="ticket__meta">
           <time dateTime={game.gameDate}>{kickoff}</time>
-          <span>{game.statusText}</span>
+          <span>{game.clockLabel}</span>
         </header>
 
         <div className="ticket__matchup">

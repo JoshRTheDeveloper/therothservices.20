@@ -246,7 +246,7 @@ select {
   background: transparent;
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 0.55rem 0.75rem;
@@ -256,6 +256,105 @@ select {
 .app-nav button.is-active {
   background: rgba(200, 245, 66, 0.14);
   color: var(--lime);
+}
+
+.live-stack {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.live-card {
+  border: 1px dashed rgba(244, 239, 228, 0.22);
+  padding: 0.85rem 0.9rem 0.75rem;
+  background: rgba(13, 31, 23, 0.55);
+}
+
+.live-card__head {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.live-card__status {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.live-card__score {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.live-card__score span {
+  margin: 0 0.45rem;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.live-card__empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.live-picks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.live-pick {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.65rem;
+  align-items: center;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgba(244, 239, 228, 0.12);
+  font-size: 0.92rem;
+}
+
+.live-pick__team {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+.live-pick__status {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.live-pick.is-you {
+  outline: 1px solid rgba(200, 245, 66, 0.35);
+}
+
+.live-pick.is-winning,
+.live-pick.is-won {
+  background: rgba(70, 180, 90, 0.18);
+  border-color: rgba(90, 220, 110, 0.45);
+  color: #b8ffc4;
+}
+
+.live-pick.is-losing,
+.live-pick.is-lost {
+  background: rgba(180, 50, 50, 0.2);
+  border-color: rgba(255, 90, 90, 0.4);
+  color: #ffc4c4;
+}
+
+.live-pick.is-pending,
+.live-pick.is-push {
+  color: var(--chalk);
 }
 
 .standings {

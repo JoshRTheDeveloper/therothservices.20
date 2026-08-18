@@ -1,11 +1,30 @@
 import { useEffect, useState } from "react";
-import { Authenticator } from "@aws-amplify/ui-react";
+import { Authenticator, ThemeProvider } from "@aws-amplify/ui-react";
 import App from "../App";
 import { getPickerName } from "../lib/auth";
 import { hasPickModel } from "../lib/amplify";
+import LiveBoardPage from "./LiveBoardPage";
 import StandingsPage from "./StandingsPage";
 
-type View = "picks" | "standings";
+type View = "picks" | "live" | "standings";
+
+const authTheme = {
+  name: "roth-picks",
+  tokens: {
+    colors: {
+      font: {
+        primary: { value: "#f4efe4" },
+        secondary: { value: "#f4efe4" },
+        tertiary: { value: "#f4efe4" },
+        interactive: { value: "#f4efe4" },
+      },
+      background: {
+        primary: { value: "#0d1f17" },
+        secondary: { value: "#143526" },
+      },
+    },
+  },
+};
 
 function AuthenticatedShell({
   signOut,
@@ -35,6 +54,13 @@ function AuthenticatedShell({
         </button>
         <button
           type="button"
+          className={view === "live" ? "is-active" : undefined}
+          onClick={() => setView("live")}
+        >
+          Live
+        </button>
+        <button
+          type="button"
           className={view === "standings" ? "is-active" : undefined}
           onClick={() => setView("standings")}
         >
@@ -44,6 +70,8 @@ function AuthenticatedShell({
 
       {view === "picks" ? (
         <App userLabel={userLabel} onSignOut={handleSignOut} />
+      ) : view === "live" ? (
+        <LiveBoardPage userLabel={userLabel} onSignOut={handleSignOut} />
       ) : (
         <StandingsPage userLabel={userLabel} onSignOut={handleSignOut} />
       )}
@@ -78,8 +106,10 @@ export default function Root() {
   }
 
   return (
-    <Authenticator hideSignUp loginMechanisms={["email"]}>
-      {({ signOut }) => <AuthenticatedShell signOut={signOut} />}
-    </Authenticator>
+    <ThemeProvider theme={authTheme} colorMode="dark">
+      <Authenticator hideSignUp loginMechanisms={["email"]}>
+        {({ signOut }) => <AuthenticatedShell signOut={signOut} />}
+      </Authenticator>
+    </ThemeProvider>
   );
 }
