@@ -28,7 +28,7 @@ applications:
           - ../../node_modules/**/*
 
   # Marketing site — frontend only (no Cognito/AppSync on this app)
-  - appRoot: .
+  - appRoot: "."
     frontend:
       phases:
         preBuild:
